@@ -104,7 +104,7 @@ public class GetdownApp
 
         // pipe our output into a file in the application directory
         if (!SysProps.noLogRedir()) {
-            File logFile = new File(appDir, "launcher.log");
+            File logFile = SysProps.logFile() != null ?  new File(SysProps.logFile()) : new File(appDir, "launcher.log");
             try {
                 PrintStream logOut = new PrintStream(
                     new BufferedOutputStream(new FileOutputStream(logFile)), true);

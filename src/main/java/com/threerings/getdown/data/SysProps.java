@@ -38,6 +38,11 @@ public class SysProps
         return System.getProperty("no_log_redir") != null;
     }
 
+    /** Configures the logfile. Usage: {@code -Dlogfile=foo}. */
+   public static String logFile () {
+       return System.getProperty("logfile");
+   }
+
     /** Overrides the domain on {@code appbase}. Usage: {@code -Dappbase_domain=foo}. */
     public static String appbaseDomain () {
         return System.getProperty("appbase_domain");
