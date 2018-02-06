@@ -22,6 +22,8 @@ import com.threerings.getdown.util.ProgressObserver;
 
 import static com.threerings.getdown.Log.log;
 
+import java.nio.file.Files;
+
 /**
  * Models a single file resource used by an {@link Application}.
  */
@@ -122,7 +124,7 @@ public class Resource
         _local = local;
         _localNew = new File(local.toString() + "_new");
         String lpath = _local.getPath();
-        _marker = new File(lpath + "v");
+        _marker = new File(local.getParent() + File.separator + Application.CONFIG_DIR + File.separator + _local.getName() + "v");
 
         _unpack = unpack;
         _isJar = isJar(lpath);
@@ -233,6 +235,11 @@ public class Resource
     public void markAsValid ()
         throws IOException
     {
+        File _markerDir = _marker.getParentFile();
+        if(!_markerDir.exists()) {
+            _markerDir.mkdir();
+            Files.setAttribute(_markerDir.toPath(), "dos:hidden", true);
+        }
         _marker.createNewFile();
     }
 

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.file.Files;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -193,6 +194,12 @@ public abstract class Getdown extends Thread
         }
 
         try {
+            File configDir = new File(instdir, Application.CONFIG_DIR);
+            if(!configDir.exists()) {
+            	configDir.mkdir();
+            	Files.setAttribute(configDir.toPath(), "dos:hidden", true);
+            }
+
             _dead = false;
             // if we fail to detect a proxy, but we're allowed to run offline, then go ahead and
             // run the app anyway because we're prepared to cope with not being able to update
@@ -237,7 +244,7 @@ public abstract class Getdown extends Thread
 
         // if we're provided with valid values, create a proxy.txt file
         if (!StringUtil.isBlank(host)) {
-            File pfile = _app.getLocalPath("proxy.txt");
+            File pfile = _app.getLocalPath(Application.CONFIG_DIR + "/proxy.txt");
             try {
                 PrintStream pout = new PrintStream(new FileOutputStream(pfile));
                 pout.println("host = " + host);
@@ -310,7 +317,7 @@ public abstract class Getdown extends Thread
         }
 
         // otherwise look for and read our proxy.txt file
-        File pfile = _app.getLocalPath("proxy.txt");
+        File pfile = _app.getLocalPath(Application.CONFIG_DIR + "/proxy.txt");
         if (pfile.exists()) {
             try {
                 Map<String, Object> pconf = ConfigUtil.parseConfig(pfile, false);

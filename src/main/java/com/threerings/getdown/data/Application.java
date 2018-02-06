@@ -48,10 +48,16 @@ import static com.threerings.getdown.Log.log;
 public class Application
 {
     /** The name of our configuration file. */
-    public static final String CONFIG_FILE = "getdown.txt";
+    public static final String CONFIG_DIR = ".getdown";
+	
+    /** The name of our configuration file. */
+    public static final String CONFIG_FILE = CONFIG_DIR + "/getdown.txt";
 
     /** The name of our target version file. */
-    public static final String VERSION_FILE = "version.txt";
+    public static final String VERSION_FILE = CONFIG_DIR + "/version.txt";
+
+    /** The name of our target version file. */
+    public static final String LOCK_FILE = CONFIG_DIR + "/gettingdown.lock";
 
     /** System properties that are prefixed with this string will be passed through to our
      * application (minus this prefix). */
@@ -1424,7 +1430,7 @@ public class Application
             return true;
         }
         try {
-            _lockChannel = new RandomAccessFile(getLocalPath("gettingdown.lock"), "rw").getChannel();
+            _lockChannel = new RandomAccessFile(getLocalPath(LOCK_FILE), "rw").getChannel();
         } catch (FileNotFoundException e) {
             log.warning("Unable to create lock file", "message", e.getMessage(), e);
             return false;

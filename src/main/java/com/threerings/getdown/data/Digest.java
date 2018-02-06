@@ -41,7 +41,7 @@ public class Digest
      */
     public static String digestFile (int version) {
         String infix = version > 1 ? String.valueOf(version) : "";
-        return FILE_NAME + infix + FILE_SUFFIX;
+        return ".getdown/" + FILE_NAME + infix + FILE_SUFFIX;
     }
 
     /**
